@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {addItemToCart} from '../actions/Actions.jsx';
 
-import {Card, Row, Col, Button} from 'react-materialize';
+import {Card, Row, Col, Button, Icon} from 'react-materialize';
 
 class Item extends React.Component {
   constructor(props) {
@@ -19,7 +19,7 @@ class Item extends React.Component {
           <Col l={6}>
             <Button waves='light' className='green'
               disabled={ ( this.props.pQuantity === 0 )? true : false}
-              onClick={this.props.onButtonClick}>Add to Cart</Button>
+              onClick={this.props.onButtonClick}>Add to Cart<Icon small right>add_shopping_cart</Icon></Button>
           </Col>
         </Row>
       </Card>

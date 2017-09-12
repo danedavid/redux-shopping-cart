@@ -26146,7 +26146,12 @@ class Item extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
             { waves: 'light', className: 'green',
               disabled: this.props.pQuantity === 0 ? true : false,
               onClick: this.props.onButtonClick },
-            'Add to Cart'
+            'Add to Cart',
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              __WEBPACK_IMPORTED_MODULE_3_react_materialize__["Icon"],
+              { small: true, right: true },
+              'add_shopping_cart'
+            )
           )
         )
       )
@@ -30483,6 +30488,31 @@ class Cart extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
       )
     ));
 
+    let modalContent = null;
+    if (collectionsArray.length === 0) {
+      modalContent = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'span',
+        { style: { fontWeight: "bold", fontSize: "30px" } },
+        'Cart Empty!'
+      );
+    } else {
+      modalContent = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        null,
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          __WEBPACK_IMPORTED_MODULE_2_react_materialize__["Collection"],
+          null,
+          collectionsArray
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'span',
+          { style: { fontWeight: "bold", fontSize: "30px" } },
+          'Total Amount: ',
+          this.props.total
+        )
+      );
+    }
+
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
       null,
@@ -30526,22 +30556,17 @@ class Cart extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
                     'span',
                     { style: { fontWeight: "bold", fontSize: "20px" } },
                     'Checkout'
+                  ),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    __WEBPACK_IMPORTED_MODULE_2_react_materialize__["Icon"],
+                    { right: true },
+                    'shopping_cart'
                   )
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   __WEBPACK_IMPORTED_MODULE_2_react_materialize__["Modal"],
                   { id: 'foo', header: 'Purchase confirmed!' },
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    __WEBPACK_IMPORTED_MODULE_2_react_materialize__["Collection"],
-                    null,
-                    collectionsArray
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'span',
-                    { style: { fontWeight: "bold", fontSize: "30px" } },
-                    'Total Amount: ',
-                    this.props.total
-                  )
+                  modalContent
                 )
               )
             )
