@@ -2,7 +2,6 @@ export default function(state = [], action) {
 
   if( action.type === "ADD_ITEM") {
     let cartIDs = _.pluck(state,"id");
-    console.log(cartIDs);
 
     let index = cartIDs.indexOf(action.productObj.id);
 
