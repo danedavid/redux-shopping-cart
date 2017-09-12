@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {Collection, CollectionItem, Row, Col} from 'react-materialize';
+import {Collection, CollectionItem, Row, Col, Button, Modal} from 'react-materialize';
 
 var collectionsArray = [];
 
@@ -35,9 +35,17 @@ class Cart extends React.Component {
           <CollectionItem active>
             <Row>
               <Col l={8}>
+                <span style={{fontWeight: "bold", fontSize: "25px"}}>Total: Rs. {this.props.total}</span>
               </Col>
               <Col l={4}>
-                <span style={{fontWeight: "bold", fontSize: "25px"}}>Total: Rs. {this.props.total}</span>
+                <div>
+                  <Button large waves='green' className='green' onClick={() => {$('#foo').modal('open')}}>
+                    <span style={{fontWeight: "bold", fontSize: "20px"}}>Checkout</span>
+                  </Button>
+                  <Modal id='foo' header='Purchase confirmed!'>
+                    <span style={{fontWeight: "bold", fontSize: "30px"}}>Total Amount: {this.props.total}</span>
+                  </Modal>
+                </div>
               </Col>
             </Row>
           </CollectionItem>

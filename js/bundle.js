@@ -30391,15 +30391,43 @@ class Cart extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             __WEBPACK_IMPORTED_MODULE_2_react_materialize__["Row"],
             null,
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_materialize__["Col"], { l: 8 }),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               __WEBPACK_IMPORTED_MODULE_2_react_materialize__["Col"],
-              { l: 4 },
+              { l: 8 },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'span',
                 { style: { fontWeight: "bold", fontSize: "25px" } },
                 'Total: Rs. ',
                 this.props.total
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              __WEBPACK_IMPORTED_MODULE_2_react_materialize__["Col"],
+              { l: 4 },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                null,
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  __WEBPACK_IMPORTED_MODULE_2_react_materialize__["Button"],
+                  { large: true, waves: 'green', className: 'green', onClick: () => {
+                      $('#foo').modal('open');
+                    } },
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'span',
+                    { style: { fontWeight: "bold", fontSize: "20px" } },
+                    'Checkout'
+                  )
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  __WEBPACK_IMPORTED_MODULE_2_react_materialize__["Modal"],
+                  { id: 'foo', header: 'Purchase confirmed!' },
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'span',
+                    { style: { fontWeight: "bold", fontSize: "30px" } },
+                    'Total Amount: ',
+                    this.props.total
+                  )
+                )
               )
             )
           )
