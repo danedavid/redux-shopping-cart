@@ -16,6 +16,12 @@ const initState = [
     name: "WD External Hard Disk 1 TB",
     price: 5500,
     quantity: 10
+  },
+  {
+    id: 4,
+    name: "Apple iPhone 7 64 GB",
+    price: 65500,
+    quantity: 5
   }
 ];
 
