@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {Collection, CollectionItem, Row, Col, Button, Modal} from 'react-materialize';
+import {Collection, CollectionItem, Row, Col, Button, Modal, Icon} from 'react-materialize';
 
 var collectionsArray = [];
 
@@ -27,6 +27,19 @@ class Cart extends React.Component {
       </CollectionItem>
     ));
 
+    let modalContent = null;
+    if( collectionsArray.length === 0 ) {
+      modalContent = <span style={{fontWeight: "bold", fontSize: "30px"}}>Cart Empty!</span>;
+    }
+    else {
+      modalContent = <div>
+                        <Collection>{collectionsArray}</Collection>
+                        <span style={{fontWeight: "bold", fontSize: "30px"}}>
+                          Total Amount: {this.props.total}
+                        </span>
+                      </div>;
+    }
+
     return (
       <div>
         <h2>Your Cart</h2>
@@ -41,9 +54,10 @@ class Cart extends React.Component {
                 <div>
                   <Button large waves='green' className='green' onClick={() => {$('#foo').modal('open')}}>
                     <span style={{fontWeight: "bold", fontSize: "20px"}}>Checkout</span>
+                    <Icon right>shopping_cart</Icon>
                   </Button>
                   <Modal id='foo' header='Purchase confirmed!'>
-                    <span style={{fontWeight: "bold", fontSize: "30px"}}>Total Amount: {this.props.total}</span>
+                    {modalContent}
                   </Modal>
                 </div>
               </Col>
