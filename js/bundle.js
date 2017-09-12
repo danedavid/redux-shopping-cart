@@ -25858,16 +25858,22 @@ function verifySubselectors(mapStateToProps, mapDispatchToProps, mergeProps, dis
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__products_jsx__ = __webpack_require__(238);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__cart_jsx__ = __webpack_require__(239);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__cartTotal_jsx__ = __webpack_require__(240);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_redux__ = __webpack_require__(60);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__visibilityFilter_jsx__ = __webpack_require__(285);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__priceFilter_jsx__ = __webpack_require__(286);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_redux__ = __webpack_require__(60);
 
 
 
 
 
-const cartApp = Object(__WEBPACK_IMPORTED_MODULE_3_redux__["b" /* combineReducers */])({
+
+
+const cartApp = Object(__WEBPACK_IMPORTED_MODULE_5_redux__["b" /* combineReducers */])({
   products: __WEBPACK_IMPORTED_MODULE_0__products_jsx__["a" /* default */],
   cart: __WEBPACK_IMPORTED_MODULE_1__cart_jsx__["a" /* default */],
-  total: __WEBPACK_IMPORTED_MODULE_2__cartTotal_jsx__["a" /* default */]
+  total: __WEBPACK_IMPORTED_MODULE_2__cartTotal_jsx__["a" /* default */],
+  visibilityFilter: __WEBPACK_IMPORTED_MODULE_3__visibilityFilter_jsx__["a" /* default */],
+  priceFilter: __WEBPACK_IMPORTED_MODULE_4__priceFilter_jsx__["a" /* default */]
 });
 
 /* harmony default export */ __webpack_exports__["a"] = (cartApp);
@@ -25917,7 +25923,6 @@ const initState = [{
 
   if (action.type === "ADD_ITEM") {
     let cartIDs = _.pluck(state, "id");
-    console.log(cartIDs);
 
     let index = cartIDs.indexOf(action.productObj.id);
 
@@ -25989,6 +25994,8 @@ class ShoppingCart extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compone
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_redux__ = __webpack_require__(39);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Item_jsx__ = __webpack_require__(243);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Filter_jsx__ = __webpack_require__(284);
+
 
 
 
@@ -25999,8 +26006,17 @@ class ItemsContainer extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compo
     super(props);
   }
   render() {
+    let visibleProducts;
+    if (this.props.visibilityFilter) {
+      visibleProducts = this.props.products.filter(elem => elem.quantity > 0);
+    } else {
+      visibleProducts = this.props.products;
+    }
+
+    visibleProducts = visibleProducts.filter(elem => elem.price >= this.props.priceFilter.min && elem.price <= this.props.priceFilter.max);
+
     let it = 0;
-    let itemsArray = this.props.products.map(elem => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Item_jsx__["a" /* default */], { key: "prod-" + it++,
+    let itemsArray = visibleProducts.map(elem => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Item_jsx__["a" /* default */], { key: "prod-" + it++,
       pID: elem.id,
       pName: elem.name,
       pPrice: elem.price,
@@ -26009,13 +26025,16 @@ class ItemsContainer extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compo
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
       null,
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Filter_jsx__["a" /* default */], null),
       itemsArray
     );
   }
 }
 
 const mapStateToProps = (state, ownprops) => ({
-  products: state.products
+  products: state.products,
+  visibilityFilter: state.visibilityFilter,
+  priceFilter: state.priceFilter
 });
 
 /* harmony default export */ __webpack_exports__["a"] = (Object(__WEBPACK_IMPORTED_MODULE_1_react_redux__["b" /* connect */])(mapStateToProps)(ItemsContainer));
@@ -26099,10 +26118,23 @@ const mapDispatchToProps = (dispatch, ownprops) => ({
 
 "use strict";
 const addItemToCart = productObj => ({
-      type: 'ADD_ITEM',
-      productObj: productObj
+  type: 'ADD_ITEM',
+  productObj: productObj
 });
 /* harmony export (immutable) */ __webpack_exports__["a"] = addItemToCart;
+
+
+const visibilityFilter = () => ({
+  type: 'VIS_FILTER'
+});
+/* harmony export (immutable) */ __webpack_exports__["c"] = visibilityFilter;
+
+
+const priceFilter = range => ({
+  type: 'PRICE_FILTER',
+  range: range
+});
+/* harmony export (immutable) */ __webpack_exports__["b"] = priceFilter;
 
 
 /***/ }),
@@ -30383,6 +30415,111 @@ const mapStateToProps = (state, ownprops) => ({
 });
 
 /* harmony default export */ __webpack_exports__["a"] = (Object(__WEBPACK_IMPORTED_MODULE_1_react_redux__["b" /* connect */])(mapStateToProps)(Cart));
+
+/***/ }),
+/* 284 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_redux__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions_Actions_jsx__ = __webpack_require__(244);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_materialize__ = __webpack_require__(105);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_materialize___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_react_materialize__);
+
+
+
+
+
+class Filter extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      __WEBPACK_IMPORTED_MODULE_3_react_materialize__["Row"],
+      null,
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        __WEBPACK_IMPORTED_MODULE_3_react_materialize__["Col"],
+        { l: 4 },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_react_materialize__["Input"], { name: 'inStock',
+          type: 'checkbox',
+          value: 'inStock',
+          label: 'Exclude out of stock',
+          onChange: this.props.onFilter })
+      ),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        __WEBPACK_IMPORTED_MODULE_3_react_materialize__["Col"],
+        { l: 2 },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'h5',
+          null,
+          'Price range:'
+        )
+      ),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        __WEBPACK_IMPORTED_MODULE_3_react_materialize__["Col"],
+        { l: 6 },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_react_materialize__["Input"], { name: 'min',
+          l: 4,
+          type: 'number',
+          defaultValue: '0',
+          min: '0',
+          max: '100000',
+          label: 'Min',
+          onChange: this.props.onRangeUpdate }),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_react_materialize__["Input"], { name: 'max',
+          l: 4,
+          type: 'number',
+          defaultValue: '100000',
+          min: '0',
+          max: '100000',
+          label: 'Max',
+          onChange: this.props.onRangeUpdate })
+      )
+    );
+  }
+}
+
+const mapDispatchToProps = (dispatch, ownprops) => ({
+  onFilter: () => {
+    dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions_Actions_jsx__["c" /* visibilityFilter */])());
+  },
+  onRangeUpdate: ev => {
+    let arg = {
+      [ev.target.name]: ev.target.value
+    };
+    dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions_Actions_jsx__["b" /* priceFilter */])(arg));
+  }
+});
+
+/* harmony default export */ __webpack_exports__["a"] = (Object(__WEBPACK_IMPORTED_MODULE_1_react_redux__["b" /* connect */])(null, mapDispatchToProps)(Filter));
+
+/***/ }),
+/* 285 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = (function (state = false, action) {
+  if (action.type === 'VIS_FILTER') {
+    return !state;
+  }
+  return state;
+});
+
+/***/ }),
+/* 286 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = (function (state = { min: 0, max: 100000 }, action) {
+  if (action.type === 'PRICE_FILTER') {
+    let newState = Object.assign({}, state, action.range);
+    return newState;
+  }
+  return state;
+});
 
 /***/ })
 /******/ ]);
