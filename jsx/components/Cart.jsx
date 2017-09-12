@@ -43,6 +43,9 @@ class Cart extends React.Component {
                     <span style={{fontWeight: "bold", fontSize: "20px"}}>Checkout</span>
                   </Button>
                   <Modal id='foo' header='Purchase confirmed!'>
+                    <Collection>
+                      {collectionsArray}
+                    </Collection>
                     <span style={{fontWeight: "bold", fontSize: "30px"}}>Total Amount: {this.props.total}</span>
                   </Modal>
                 </div>
