@@ -1,3 +1,8 @@
+export const fetchData = (data) => ({
+  type: 'RECV_DATA',
+  payload: data
+});
+
 export const addItemToCart = (productObj) => ({
   type: 'ADD_ITEM',
   productObj: productObj

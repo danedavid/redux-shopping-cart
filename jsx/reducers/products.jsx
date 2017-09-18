@@ -1,36 +1,15 @@
-const initState = [
-  {
-    id: 1,
-    name: "Whirlpool Refrigerator",
-    price: 12500,
-    quantity: 2
-  },
-  {
-    id: 2,
-    name: "Moto G Play 16GB",
-    price: 9800,
-    quantity: 19
-  },
-  {
-    id: 3,
-    name: "WD External Hard Disk 1 TB",
-    price: 5500,
-    quantity: 10
-  },
-  {
-    id: 4,
-    name: "Apple iPhone 7 64 GB",
-    price: 65500,
-    quantity: 5
-  }
-];
+var initState = [];
 
 export default function( state = initState, action ) {
+  if( action.type === "RECV_DATA" ) {
+    let newState = action.payload;
+    return newState;
+  }
   if( action.type === "ADD_ITEM" ) {
     let newState = [...state];
 
     for( let i in newState ) {
-      if( newState[i].id === action.productObj.id ) {
+      if( newState[i].productID === action.productObj.productID ) {
         newState[i].quantity--;
       }
     }

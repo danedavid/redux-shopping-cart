@@ -30,7 +30,7 @@ class Item extends React.Component {
 const mapDispatchToProps = (dispatch, ownprops) => ({
   onButtonClick: () => {
     dispatch(addItemToCart({
-      id: ownprops.pID,
+      productID: ownprops.pID,
       name: ownprops.pName,
       price: ownprops.pPrice,
       quantity: ownprops.pQuantity
