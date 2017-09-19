@@ -4,7 +4,7 @@ import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import cartApp from '../reducers/index.jsx';
 
-import ShoppingCart from './ShoppingCart.jsx';
+import RouterPage from './RouterPage.jsx';
 
 let store = createStore(
   cartApp,
@@ -13,7 +13,7 @@ let store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <ShoppingCart/>
+    <RouterPage/>
   </Provider>,
   document.getElementById('root')
 );

@@ -1,9 +1,9 @@
 export default function(state = [], action) {
 
   if( action.type === "ADD_ITEM") {
-    let cartIDs = _.pluck(state,"id");
+    let cartIDs = _.pluck(state,"productID");
 
-    let index = cartIDs.indexOf(action.productObj.id);
+    let index = cartIDs.indexOf(action.productObj.productID);
 
     if( index !== -1 ) {
       let newState = [...state];
