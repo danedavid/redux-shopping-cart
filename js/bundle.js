@@ -31073,8 +31073,6 @@ class ItemsContainer extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compo
       visibleProducts = this.props.products;
     }
 
-    visibleProducts = visibleProducts.filter(elem => elem.price >= this.props.priceFilter.min && elem.price <= this.props.priceFilter.max);
-
     let it = 0;
     let itemsArray = visibleProducts.map(elem => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Item_jsx__["a" /* default */], { key: "prod-" + it++,
       pID: elem.productID,
@@ -36266,9 +36264,12 @@ exports.default = Toast;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_redux__ = __webpack_require__(29);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions_Actions_jsx__ = __webpack_require__(76);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_materialize__ = __webpack_require__(46);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_materialize___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_react_materialize__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios__ = __webpack_require__(129);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__actions_Actions_jsx__ = __webpack_require__(76);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react_materialize__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react_materialize___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_react_materialize__);
+
 
 
 
@@ -36280,19 +36281,19 @@ class Filter extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   }
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      __WEBPACK_IMPORTED_MODULE_3_react_materialize__["Row"],
+      __WEBPACK_IMPORTED_MODULE_4_react_materialize__["Row"],
       null,
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        __WEBPACK_IMPORTED_MODULE_3_react_materialize__["Col"],
+        __WEBPACK_IMPORTED_MODULE_4_react_materialize__["Col"],
         { l: 4 },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_react_materialize__["Input"], { name: 'inStock',
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4_react_materialize__["Input"], { name: 'inStock',
           type: 'checkbox',
           value: 'inStock',
           label: 'Exclude out of stock',
           onChange: this.props.onFilter })
       ),
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        __WEBPACK_IMPORTED_MODULE_3_react_materialize__["Col"],
+        __WEBPACK_IMPORTED_MODULE_4_react_materialize__["Col"],
         { l: 2 },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'h5',
@@ -36301,23 +36302,27 @@ class Filter extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
         )
       ),
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        __WEBPACK_IMPORTED_MODULE_3_react_materialize__["Col"],
+        __WEBPACK_IMPORTED_MODULE_4_react_materialize__["Col"],
         { l: 6 },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_react_materialize__["Input"], { name: 'min',
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4_react_materialize__["Input"], { name: 'min',
+          id: 'min-1',
           l: 4,
           type: 'number',
           defaultValue: '0',
           min: '0',
           max: '100000',
           label: 'Min',
+          step: '1000',
           onChange: this.props.onRangeUpdate }),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_react_materialize__["Input"], { name: 'max',
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4_react_materialize__["Input"], { name: 'max',
+          id: 'max-1',
           l: 4,
           type: 'number',
           defaultValue: '100000',
           min: '0',
           max: '100000',
           label: 'Max',
+          step: '1000',
           onChange: this.props.onRangeUpdate })
       )
     );
@@ -36326,13 +36331,22 @@ class Filter extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
 const mapDispatchToProps = (dispatch, ownprops) => ({
   onFilter: () => {
-    dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions_Actions_jsx__["d" /* visibilityFilter */])());
+    dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions_Actions_jsx__["d" /* visibilityFilter */])());
   },
   onRangeUpdate: ev => {
     let arg = {
       [ev.target.name]: ev.target.value
     };
-    dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions_Actions_jsx__["c" /* priceFilter */])(arg));
+    dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions_Actions_jsx__["c" /* priceFilter */])(arg));
+
+    let minVal = document.getElementById('min-1').value;
+    let maxVal = document.getElementById('max-1').value;
+    let url = `http://localhost:8000/productListing?min_price=${minVal}&max_price=${maxVal}`;
+    __WEBPACK_IMPORTED_MODULE_2_axios___default.a.get(url).then(function (response) {
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions_Actions_jsx__["b" /* fetchData */])(response.data.result));
+    }).catch(function (err) {
+      console.log(err);
+    });
   }
 });
 
@@ -36462,8 +36476,10 @@ const mapStateToProps = (state, ownprops) => ({
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_redux__ = __webpack_require__(29);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_materialize__ = __webpack_require__(46);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_materialize___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react_materialize__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_router_dom__ = __webpack_require__(121);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_materialize__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_materialize___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_react_materialize__);
+
 
 
 
@@ -36475,23 +36491,23 @@ class Checkout extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   render() {
     let it = 0;
     let collectionsArray = this.props.cart.map(elem => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      __WEBPACK_IMPORTED_MODULE_2_react_materialize__["CollectionItem"],
+      __WEBPACK_IMPORTED_MODULE_3_react_materialize__["CollectionItem"],
       { key: "cart-item-" + it++ },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        __WEBPACK_IMPORTED_MODULE_2_react_materialize__["Row"],
+        __WEBPACK_IMPORTED_MODULE_3_react_materialize__["Row"],
         null,
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          __WEBPACK_IMPORTED_MODULE_2_react_materialize__["Col"],
+          __WEBPACK_IMPORTED_MODULE_3_react_materialize__["Col"],
           { l: 4 },
           elem.name
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          __WEBPACK_IMPORTED_MODULE_2_react_materialize__["Col"],
+          __WEBPACK_IMPORTED_MODULE_3_react_materialize__["Col"],
           { l: 4 },
           elem.count
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          __WEBPACK_IMPORTED_MODULE_2_react_materialize__["Col"],
+          __WEBPACK_IMPORTED_MODULE_3_react_materialize__["Col"],
           { l: 4 },
           elem.price * elem.count
         )
@@ -36515,7 +36531,7 @@ class Checkout extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
           'Your Order'
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          __WEBPACK_IMPORTED_MODULE_2_react_materialize__["Collection"],
+          __WEBPACK_IMPORTED_MODULE_3_react_materialize__["Collection"],
           null,
           collectionsArray
         ),
@@ -36530,7 +36546,12 @@ class Checkout extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
       null,
-      cartContent
+      cartContent,
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        __WEBPACK_IMPORTED_MODULE_2_react_router_dom__["b" /* Link */],
+        { to: '/' },
+        'Back to Products listing'
+      )
     );
   }
 }

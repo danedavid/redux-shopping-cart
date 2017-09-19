@@ -21,10 +21,6 @@ class ItemsContainer extends React.Component {
       visibleProducts = this.props.products;
     }
 
-    visibleProducts = visibleProducts.filter( (elem) => (
-      (elem.price >= this.props.priceFilter.min)&&(elem.price <= this.props.priceFilter.max)
-    ));
-
     let it = 0;
     let itemsArray = visibleProducts.map( (elem) => (
       <Item key={"prod-" + it++}

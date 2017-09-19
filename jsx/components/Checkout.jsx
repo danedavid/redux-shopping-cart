@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
 import {Collection, CollectionItem, Row, Col} from 'react-materialize';
 
 class Checkout extends React.Component {
@@ -40,6 +41,7 @@ class Checkout extends React.Component {
     return (
       <div>
         {cartContent}
+        <Link to="/">Back to Products listing</Link>
       </div>
     );
   }
